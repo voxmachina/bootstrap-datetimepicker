@@ -22,7 +22,7 @@
 
 /*
  * Improvement by CuGBabyBeaR @ 2013-09-12
- * 
+ *
  * Make it work in bootstrap v3
  */
 
@@ -154,10 +154,14 @@
 			}
 		}
 
+		if ('className' in options && options.className !== undefined && options.className !== null) {
+			this.picker.addClass(options.className);
+		}
+
 		if (this.isInline) {
 			this.picker.addClass('datetimepicker-inline');
 		} else {
-			this.picker.addClass('datetimepicker-dropdown-' + this.pickerPosition + ' dropdown-menu');
+			this.picker.addClass('slide-n-fade datetimepicker-dropdown-' + this.pickerPosition);
 		}
 		if (this.isRTL) {
 			this.picker.addClass('datetimepicker-rtl');
@@ -171,12 +175,13 @@
 			;
 
 		}
-		$(document).on('mousedown', function (e) {
+		$(document).on('click', function (e) {
 			// Clicked outside the datetimepicker, hide it
 			if ($(e.target).closest('.datetimepicker').length === 0) {
 				that.hide();
 			}
 		});
+
 
 		this.autoclose = false;
 		if ('autoclose' in options) {
@@ -274,7 +279,8 @@
 		},
 
 		show: function (e) {
-			this.picker.show();
+			// this.picker.show();
+			this.picker.addClass("slide-in");
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			if (this.forceParse) {
 				this.update();
@@ -295,7 +301,7 @@
 		hide: function (e) {
 			if (!this.isVisible) return;
 			if (this.isInline) return;
-			this.picker.hide();
+			this.picker.removeClass("slide-in");
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;
 			this.showMode();
@@ -440,11 +446,6 @@
 				offset = this.element.offset();
 				left = offset.left;
 			}
-			
-			if(left+220 > document.body.clientWidth){
-            			left = document.body.clientWidth-220;
-          		}
-			
 			if (this.pickerPosition == 'top-left' || this.pickerPosition == 'top-right') {
 				top = offset.top - this.picker.outerHeight();
 			} else {
@@ -1232,8 +1233,7 @@
 	$.fn.datetimepicker = function (option) {
 		var args = Array.apply(null, arguments);
 		args.shift();
-		var internal_return;
-		this.each(function () {
+		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('datetimepicker'),
 				options = typeof option == 'object' && option;
@@ -1241,16 +1241,9 @@
 				$this.data('datetimepicker', (data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, options))));
 			}
 			if (typeof option == 'string' && typeof data[option] == 'function') {
-				internal_return = data[option].apply(data, args);
-				if (internal_return !== undefined) {
-					return false;
-				}
+				data[option].apply(data, args);
 			}
 		});
-		if (internal_return !== undefined)
-			return internal_return;
-		else
-			return this;
 	};
 
 	$.fn.datetimepicker.defaults = {
@@ -1590,16 +1583,16 @@
 		},
 		headTemplate:     '<thead>' +
 							  '<tr>' +
-							  '<th class="prev"><i class="icon-arrow-left"/></th>' +
+							  '<th class="prev"><i class="icon-before-tiny icon-arrow-left"  data-icon=""/></th>' +
 							  '<th colspan="5" class="switch"></th>' +
-							  '<th class="next"><i class="icon-arrow-right"/></th>' +
+							  '<th class="next"><i class="icon-after-tiny icon-arrow-right" data-icon=""/></th>' +
 							  '</tr>' +
 			'</thead>',
 		headTemplateV3:   '<thead>' +
 							  '<tr>' +
-							  '<th class="prev"><i class="glyphicon glyphicon-arrow-left"></i> </th>' +
+							  '<th class="prev"><i class="icon-before-tiny icon-arrow-left"  data-icon=""></i> </th>' +
 							  '<th colspan="5" class="switch"></th>' +
-							  '<th class="next"><i class="glyphicon glyphicon-arrow-right"></i> </th>' +
+							  '<th class="next"><i class="icon-after-tiny icon-arrow-right" data-icon=""></i> </th>' +
 							  '</tr>' +
 			'</thead>',
 		contTemplate:     '<tbody><tr><td colspan="7"></td></tr></tbody>',
