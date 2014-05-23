@@ -175,7 +175,7 @@
 			;
 
 		}
-		$(document).on('click', function (e) {
+		$(document).on('mousedown touchstart', function (e) {
 			// Clicked outside the datetimepicker, hide it
 			if ($(e.target).closest('.datetimepicker').length === 0) {
 				that.hide();
@@ -280,7 +280,7 @@
 
 		show: function (e) {
 			// this.picker.show();
-			this.picker.addClass("slide-in");
+      this.picker.addClass("slide-in");
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			if (this.forceParse) {
 				this.update();
@@ -301,7 +301,7 @@
 		hide: function (e) {
 			if (!this.isVisible) return;
 			if (this.isInline) return;
-			this.picker.removeClass("slide-in");
+      this.picker.removeClass("slide-in");
 			$(window).off('resize', this.place);
 			this.viewMode = this.startViewMode;
 			this.showMode();
