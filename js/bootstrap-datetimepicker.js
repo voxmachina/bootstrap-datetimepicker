@@ -380,6 +380,7 @@
 					this.element.find('input').val(formatted);
 				}
 				this.element.data('date', formatted);
+				this.element.find("input").val(formatted);
 			} else {
 				this.element.val(formatted);
 			}
